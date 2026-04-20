@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PILAS CUP – IV Memorial Francisco Correa</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1a6b2a;
+    --verde-claro: #2d9e42;
+    --verde-cesped: #22883a;
+    --oro: #f0c040;
+    --plata: #c0c8d8;
+    --blanco: #f5f7f5;
+    --negro: #0d1a0f;
+    --gris-oscuro: #1c271e;
+    --gris-medio: #2e3e30;
+    --gris-linea: #3a4e3c;
+    --rojo: #e03030;
+    --amarillo-tarjeta: #f5c518;
+    --radius: 6px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--negro);
+    color: var(--blanco);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── CAMPO DE FÚTBOL FONDO ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 49px,
+        rgba(255,255,255,0.03) 49px,
+        rgba(255,255,255,0.03) 50px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 49px,
+        rgba(255,255,255,0.03) 49px,
+        rgba(255,255,255,0.03) 50px
+      ),
+      linear-gradient(160deg, #0b1a0d 0%, #0d2010 50%, #0b1a0d 100%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    background: linear-gradient(135deg, #0d2010 0%, #1a4020 60%, #0f2510 100%);
+    border-bottom: 3px solid var(--oro);
+    padding: 0;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--oro), var(--verde-claro), var(--oro), transparent);
+  }
+  .header-inner {
+    max-width: 1100px; margin: auto;
+    display: flex; align-items: center; gap: 24px;
+    padding: 28px 24px 22px;
+  }
+  .header-badge {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--oro), #c8960a);
+    border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 30px rgba(240,192,64,0.4);
+    font-family: 'Oswald', sans-serif;
+  }
+  .header-badge span:first-child { font-size: 12px; color: #0d1a0f; font-weight: 600; letter-spacing: 2px; }
+  .header-badge span:last-child { font-size: 28px; color: #0d1a0f; font-weight: 700; line-height: 1; }
+  .header-titles h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(28px,5vw,48px);
+    font-weight: 800;
+    color: var(--oro);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 0 40px rgba(240,192,64,0.3);
+    line-height: 1;
+  }
+  .header-titles h2 {
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(245,247,245,0.7);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .header-titles .fecha-tag {
+    display: inline-block;
+    background: var(--verde);
+    color: var(--oro);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 8px;
+    border: 1px solid var(--oro);
+  }
+
+  /* ── ONEDRIVE BANNER ── */
+  .onedrive-bar {
+    position: relative; z-index: 10;
+    background: var(--gris-oscuro);
+    border-bottom: 1px solid var(--gris-linea);
+    padding: 10px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .onedrive-bar .od-info {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: rgba(245,247,245,0.6);
+  }
+
+  /* ── NAV TABS ── */
+  nav {
+    position: relative; z-index: 10;
+    background: var(--gris-oscuro);
+    display: flex; gap: 0;
+    border-bottom: 2px solid var(--gris-linea);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none; border: none; color: rgba(245,247,245,0.5);
+    font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 14px 22px; cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: color .2s, border-color .2s;
+    white-space: nowrap;
+    margin-bottom: -2px;
+  }
+  .tab-btn:hover { color: var(--blanco); }
+  .tab-btn.active { color: var(--oro); border-bottom-color: var(--oro); }
+
+  /* ── MAIN ── */
+  main {
+    position: relative; z-index: 5;
+    max-width: 1100px; margin: auto;
+    padding: 28px 16px 60px;
+  }
+
+  /* ── SECTIONS ── */
+  .section { display: none; animation: fadeIn .3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── GRUPO CARDS ── */
+  .grupos-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(1000px, 1fr));
+    gap: 20px; margin-bottom: 28px;
+  }
+  .grupo-header {
+    background: linear-gradient(135deg, var(--verde), var(--verde-claro));
+    padding: 12px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .grupo-header h3 {
+    font-family: 'Oswald', sans-serif; font-size: 15px;
+    font-weight: 700; letter-spacing: 2px; color: var(--blanco);
+  }
+  .grupo-header .grupo-n {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 32px;
+    font-weight: 800; color: rgba(255,255,255,0.15); line-height: 1;
+  }
+
+  .tabla-clasificacion { width: 100%; border-collapse: collapse; }
+  .tabla-clasificacion th {
+    font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(245,247,245,0.4);
+    padding: 8px 10px 6px; text-align: center; border-bottom: 1px solid var(--gris-linea);
+  }
+  .tabla-clasificacion th:first-child { text-align: left; }
+  .tabla-clasificacion td {
+    padding: 10px 10px; text-align: center;
+    font-size: 13px; border-bottom: 1px solid rgba(58,78,60,.4);
+  }
+  .tabla-clasificacion td:first-child { text-align: left; }
+  .tabla-clasificacion tr:last-child td { border-bottom: none; }
+  .tabla-clasificacion tr:hover td { background: rgba(255,255,255,.03); }
+
+  .equipo-name {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 500; font-size: 13px;
+  }
+  .equipo-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .pts-badge {
+    display: inline-block;
+    background: var(--verde);
+    color: #fff;
+    font-weight: 700; font-size: 13px;
+    padding: 2px 8px; border-radius: 4px;
+    min-width: 28px; text-align: center;
+  }
+  .pos-1 .pts-badge { background: var(--oro); color: var(--negro); }
+  .pos-2 .pts-badge { background: var(--verde-claro); }
+  .clasif-badge {
+    font-size: 10px; letter-spacing: .5px;
+    padding: 1px 6px; border-radius: 10px;
+    font-weight: 600;
+  }
+  .clasif-oro { background: rgba(240,192,64,.2); color: var(--oro); border: 1px solid rgba(240,192,64,.4); }
+  .clasif-plata { background: rgba(192,200,216,.2); color: var(--plata); border: 1px solid rgba(192,200,216,.4); }
+
+  /* ── PARTIDOS CALENDARIO ── */
+  .fase-section { margin-bottom: 32px; }
+  .fase-title {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--oro); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .fase-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--gris-linea);
+  }
+  .partidos-grid {
+    display: grid; gap: 10px;
+  }
+  .partido-card {
+    background: var(--gris-oscuro);
+    border: 1px solid var(--gris-linea);
+    border-radius: var(--radius);
+    display: grid; grid-template-columns: 90px 1fr 80px 1fr 90px;
+    align-items: center; padding: 12px 16px; gap: 8px;
+    transition: border-color .2s, transform .15s;
+  }
+  .partido-card:hover { border-color: var(--verde-claro); transform: translateX(3px); }
+  .partido-hora {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600;
+    color: var(--oro); text-align: left;
+  }
+  .partido-hora small {
+    display: block; font-size: 9px; color: rgba(245,247,245,0.4);
+    font-family: 'Barlow', sans-serif; letter-spacing: 1px; font-weight: 400;
+  }
+  .partido-equipo {
+    font-size: 13px; font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .partido-equipo.local { justify-content: flex-end; text-align: right; }
+  .partido-equipo.visitante { justify-content: flex-start; text-align: left; }
+  .marcador-box {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .marcador-gol {
+    background: var(--gris-medio);
+    border: 1px solid var(--gris-linea);
+    border-radius: 4px;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700;
+    color: var(--blanco); cursor: pointer; transition: background .15s;
+    user-select: none;
+  }
+  .marcador-gol:hover { background: var(--verde); }
+  .marcador-sep { color: rgba(245,247,245,.3); font-weight: 300; }
+  .campo-tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 1px;
+    padding: 2px 8px; border-radius: 10px;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  /* ── FASE FINAL ── */
+  .bracket {
+    display: flex; gap: 24px; overflow-x: auto; padding-bottom: 12px;
+  }
+  .bracket-col {
+    display: flex; flex-direction: column; gap: 12px;
+    min-width: 200px;
+  }
+  .bracket-col-title {
+    font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(245,247,245,.5); text-align: center; margin-bottom: 4px;
+  }
+  .bracket-match {
+    background: var(--gris-oscuro);
+    border: 1px solid var(--gris-linea);
+    border-radius: var(--radius); overflow: hidden;
+    flex: 1;
+  }
+  .bracket-team {
+    padding: 8px 12px; font-size: 12px; font-weight: 500;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--gris-linea);
+    transition: background .15s;
+  }
+  .bracket-team:last-child { border-bottom: none; }
+  .bracket-team.winner { background: rgba(45,158,66,.15); color: var(--verde-claro); font-weight: 600; }
+  .bracket-team-score {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700;
+    color: var(--oro);
+  }
+
+  /* ── EQUIPOS ── */
+  .equipos-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+  }
+  .equipo-card {
+    background: var(--gris-oscuro);
+    border: 1px solid var(--gris-linea);
+    border-radius: 10px; padding: 16px;
+    display: flex; align-items: center; gap: 14px;
+    transition: border-color .2s, transform .15s;
+  }
+  .equipo-card:hover { border-color: var(--verde-claro); transform: translateY(-2px); }
+  .equipo-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 800;
+    flex-shrink: 0; border: 2px solid rgba(255,255,255,.1);
+  }
+  .equipo-card-info { flex: 1; min-width: 0; }
+  .equipo-card-info h4 {
+    font-size: 13px; font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .equipo-card-info small {
+    font-size: 11px; color: rgba(245,247,245,.4); letter-spacing: .5px;
+  }
+  .grupo-pill {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    padding: 2px 8px; border-radius: 10px;
+  }
+  .escudo {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .escudo-grande {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+  }
+  /* ── STATS ── */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .stats-card {
+    background: var(--gris-oscuro);
+    border: 1px solid var(--gris-linea);
+    border-radius: 10px; overflow: hidden;
+  }
+  .stats-card-header {
+    background: var(--gris-medio);
+    padding: 10px 16px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(245,247,245,.6);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .stats-table { width: 100%; border-collapse: collapse; }
+  .stats-table td {
+    padding: 9px 14px; font-size: 13px;
+    border-bottom: 1px solid rgba(58,78,60,.4);
+  }
+  .stats-table tr:last-child td { border-bottom: none; }
+  .stats-rank {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 14px;
+    color: rgba(245,247,245,.3); width: 28px;
+  }
+  .stats-rank.top { color: var(--oro); }
+  .stats-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .stats-bar {
+    height: 4px; border-radius: 2px;
+    background: var(--verde-claro); transition: width .6s ease;
+  }
+  .stats-val {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 16px;
+    color: var(--oro); text-align: right;
+  }
+
+  /* ── ONEDRIVE GUIDE ── */
+  .od-guide {
+    background: var(--gris-oscuro);
+    border: 1px solid var(--gris-linea);
+    border-radius: 10px; padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .od-guide h3 {
+    font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700;
+    letter-spacing: 2px; color: var(--oro); margin-bottom: 12px;
+  }
+  .od-steps { list-style: none; counter-reset: steps; }
+  .od-steps li {
+    counter-increment: steps;
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 8px 0; font-size: 13px; color: rgba(245,247,245,.7);
+    border-bottom: 1px solid rgba(58,78,60,.3);
+  }
+  .od-steps li:last-child { border-bottom: none; }
+  .od-steps li::before {
+    content: counter(steps);
+    background: var(--verde);
+    color: #fff; border-radius: 50%;
+    width: 22px; height: 22px; min-width: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700;
+  }
+  code {
+    background: rgba(255,255,255,.08); border-radius: 3px;
+    padding: 1px 6px; font-size: 11px; font-family: monospace;
+    color: var(--verde-claro);
+  }
+
+  /* ── LOADING OVERLAY ── */
+  #loading-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(13,26,15,.9);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px;
+    transition: opacity .4s;
+  }
+  #loading-overlay.hidden { opacity: 0; pointer-events: none; }
+  .loader-ball {
+    width: 60px; height: 60px;
+    border: 3px solid rgba(255,255,255,.1);
+    border-top-color: var(--oro);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loading-overlay p { font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: 2px; color: var(--oro); }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 5;
+    border-top: 1px solid var(--gris-linea);
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 11px; color: rgba(245,247,245,.3);
+    letter-spacing: 1.5px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .partido-card { grid-template-columns: 70px 1fr 60px 1fr; }
+    .campo-tag { display: none; }
+    .od-input { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loading-overlay">
+  <div class="loader-ball"></div>
+  <p>CARGANDO TORNEO...</p>
+</div>
+
+ <!-- HEADER   -->
+<header>
+  <div class="header-inner">
+    <div class="header-badge">
+      <span>PILAS</span><span>IV</span>
+    </div>
+    <div class="header-titles">
+      <h1>PILAS CUP</h1>
+      <h2>IV Memorial Francisco Correa · Categoría Alevín 2014–2015</h2>
+      <span class="fecha-tag">📅 SÁBADO 25 DE ABRIL 2026</span>
+    </div>
+  </div>
+</header>
+
+<!--  NAV-->
+<nav>
+  <button class="tab-btn active" onclick="mostrarSeccion('inicio',this)">Inicio</button>
+  <button class="tab-btn" onclick="mostrarSeccion('clasificacion',this)">🏆 Clasificación</button>
+  <button class="tab-btn" onclick="mostrarSeccion('calendario',this)">📅 Fase de Grupos</button>
+  <button class="tab-btn" onclick="mostrarSeccion('fasefinal',this)">⚽Fase Final</button>
+  <button class="tab-btn" onclick="mostrarSeccion('equipos',this)">👥 Equipos</button>
+  <button class="tab-btn" onclick="mostrarSeccion('bases',this)">📜 Bases</button>
+  <button class="tab-btn" onclick="mostrarSeccion('normas',this)">📘 Normas</button>
+</nav>
+
+<main>
+<!--  ═══════════════ INICIO / CARTEL ═══════════════   -->
+<div class="section active" id="sec-inicio">
+  <div class="od-guide" style="text-align:center;">
+    <h3>IV Memorial Francisco Correa – Pilas Cup 2026</h3>
+    <p style="font-size:13px;color:rgba(245,247,245,.6);margin-bottom:16px;">
+      Categoría Alevín (2014–2015) · Polideportivo Municipal Francisco Correa · Pilas
+    </p>
+    <img
+            src="Cartel.png"
+            alt="Cartel Pilas Cup – IV Memorial Francisco Correa"
+            style="
+    width:100%;
+    max-width:900px;
+    height:auto;
+    border-radius:10px;
+    box-shadow:0 20px 50px rgba(0,0,0,.6);
+    margin:0 auto;
+    display:block;
+  "
+    >
+  </div>
+</div>
+  
+<!--  ═══════════════ CLASIFICACIÓN ═══════════════   -->
+<div class="section active" id="sec-clasificacion">
+  <div class="grupos-grid" id="grupos-container">
+      Generado por JS   
+  </div>
+</div>
+
+<!--  ═══════════════ Fase de Grupos ═══════════════   -->
+<div class="section" id="sec-calendario">
+  <div id="calendario-container">
+  </div>
+</div>
+  
+<!--  ═══════════════ Fase Final ═══════════════   -->
+<div class="section" id="sec-fasefinal">
+  <div style="margin-bottom:28px;">
+    <div id="fasefinal-container">
+    </div>
+    <div class="fase-title">🥇 Fase Oro</div>
+    <div id="bracket-oro"></div>
+  </div>
+  <div>
+    <div class="fase-title">🥈 Fase Plata</div>
+    <div id="bracket-plata"></div>
+  </div>
+</div>
+  
+<!--  ═══════════════ EQUIPOS ═══════════════   -->
+<div class="section" id="sec-equipos">
+  <div class="equipos-grid" id="equipos-container">
+  </div>
+</div>
+  
+<!--  ═══════════════ BASES DEL TORNEO ═══════════════   -->
+<div class="section" id="sec-bases">
+  <div class="od-guide">
+    <h3>📜 Bases Oficiales de la Competición</h3>
+    <iframe
+            src="Bases%20competición%20IV%20Memorial%20Francisco%20Correa%20Pilas%20Cup.pdf"
+            style="width:100%; height:80vh; border:none; border-radius:8px;">
+    </iframe>
+  </div>
+</div>
+  
+  <!--  ═══════════════ NORMAS DEL EVENTO ═══════════════   -->
+<div class="section" id="sec-normas">
+  <div class="od-guide">
+    <h3>📘 Normas para el Buen Desarrollo del Evento</h3>
+    <iframe
+            src="NORMAS%20A%20SEGUIR%20PARA%20EL%20BUEN%20DESARROLLO%20DEL%20EVENTO.pdf"
+            style="width:100%; height:80vh; border:none; border-radius:8px;">
+    </iframe>
+  </div>
+</div>
+
+
+</main>
+
+<footer>
+  PILAS CUP 2026 · IV MEMORIAL FRANCISCO CORREA · Polideportivo Municipal Francisco Correa · Pilas, Sevilla
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+
+  const ONEDRIVE_EXCEL_URL =
+          'https://docs.google.com/spreadsheets/d/e/2PACX-1vQc7PyOfg3IKsMJF9uakrLioLNY_pytWwonlABzJt0PTJCvX1wwHpLw5vqd_2EOUA/pub?output=xlsx';
+
+ const COLORES_EQUIPOS = [  
+   '#e63b3b','#3b8ee6','#f0c040','#3be68a','#e63bbd','#3bf0f0',
+   '#e6873b','#9b3be6','#6be63b','#e6e63b','#3b6be6','#e6553b'
+ ];  
+
+ let estado = {  
+   equipos: [],  
+   partidos: [],  
+   grupos: [],  
+   cargado: false,  
+   fuenteOneDrive: false  
+ };
+
+// ═══════════════════════════════════════════════════
+//  MOTOR: CLASIFICACIÓN
+// ═══════════════════════════════════════════════════
+
+  function calcularClasificacion(grupoNum, equipos, partidos) {
+    const equiposGrupo = equipos.filter(e => e.grupo === grupoNum);
+    const tabla = {};
+
+    equiposGrupo.forEach(e => {
+      tabla[e.id] = { id: e.id, nombre: e.nombre, pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0, pts: 0, ta: 0, tr: 0 };
+    });
+
+    const partidosGrupo = partidos.filter(p =>
+            p.fase === 'Grupos' &&
+            p.grupo === grupoNum &&
+            p.gl !== null &&
+            p.gv !== null
+    );
+
+    partidosGrupo.forEach(p => {
+      const L = tabla[p.local];
+      const V = tabla[p.visit];
+      if (!L || !V) return;
+      L.pj++; V.pj++;
+      L.gf += p.gl; L.gc += p.gv;
+      V.gf += p.gv; V.gc += p.gl;
+      if (p.gl > p.gv)      { L.pg++; V.pp++; L.pts += 3; }
+      else if (p.gl < p.gv) { V.pg++; L.pp++; V.pts += 3; }
+      else                  { L.pe++; V.pe++; L.pts += 1; V.pts += 1; }
+    });
+
+    const listaEquipos = Object.values(tabla);
+
+    return listaEquipos.sort((a, b) => {
+      // 0. Puntos (Criterio base)
+      if (b.pts !== a.pts) return b.pts - a.pts;
+
+      // 1. Average Particular (Diferencia de goles en partidos entre ellos)
+      // Buscamos el partido o partidos donde se enfrentaron A y B
+      const duelosDirectos = partidosGrupo.filter(p =>
+              (p.local === a.id && p.visit === b.id) || (p.local === b.id && p.visit === a.id)
+      );
+
+      let ptsPartA = 0; let ptsPartB = 0;
+      duelosDirectos.forEach(p => {
+        const gl = p.local === a.id ? p.gl : p.gv;
+        const gv = p.local === a.id ? p.gv : p.gl;
+        if (gl > gv) ptsPartA += 3;
+        else if (gl < gv) ptsPartB += 3;
+        else { ptsPartA += 1; ptsPartB += 1; }
+      });
+
+      if (ptsPartB !== ptsPartA) return ptsPartB - ptsPartA;
+
+      // 2. Average General (Diferencia de goles total)
+      const diffA = a.gf - a.gc;
+      const diffB = b.gf - b.gc;
+      if (diffB !== diffA) return diffB - diffA;
+
+      // 3. Total goles a favor (Mayor)
+      if (b.gf !== a.gf) return b.gf - a.gf;
+
+      // 4. Total goles en contra (Menor)
+      if (a.gc !== b.gc) return a.gc - b.gc;
+
+      // 5. Sorteo puro (Moneda al aire)
+      return 0.5 - Math.random();
+    });
+  }
+
+// ═══════════════════════════════════════════════════
+//  RENDER – CLASIFICACIÓN
+// ═══════════════════════════════════════════════════
+
+function renderClasificacion() {
+  const container = document.getElementById('grupos-container');
+  container.innerHTML = '';
+  [1,2,3].forEach(g => {
+    const tabla = calcularClasificacion(g, estado.equipos, estado.partidos);
+    const card = document.createElement('div');
+    card.className = 'grupo-card';
+    card.innerHTML = `
+      <div class="grupo-header">
+        <h3>GRUPO ${g}</h3>
+        <span class="grupo-n">${g}</span>
+      </div>
+      <table class="tabla-clasificacion">
+        <thead>
+          <tr>
+            <th>Equipo</th>
+            <th>PJ</th><th>PG</th><th>PE</th><th>PP</th>
+            <th>GF</th><th>GC</th><th>DIF</th><th>PTS</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tabla.map((e,i) => `
+            <tr class="pos-${i+1}">
+              <td>
+                <div class="equipo-name">
+                  <img src="${e.id}.png" class="escudo" alt="${e.nombre}">
+                  ${e.nombre}
+                  ${i<2 ? `<span class="clasif-badge clasif-oro">ORO</span>` : `<span class="clasif-badge clasif-plata">PLATA</span>`}
+                </div>
+              </td>
+              <td>${e.pj}</td><td>${e.pg}</td><td>${e.pe}</td><td>${e.pp}</td>
+              <td>${e.gf}</td><td>${e.gc}</td>
+              <td style="color:${e.gf-e.gc>0?'#3cd65a':e.gf-e.gc<0?'#e03030':'inherit'}">${e.gf-e.gc>0?'+':''}${e.gf-e.gc}</td>
+              <td><span class="pts-badge">${e.pts}</span></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>`;
+    container.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER – CALENDARIO
+// ═══════════════════════════════════════════════════
+
+function renderCalendario() {
+  const container = document.getElementById('calendario-container');
+  const fases = ['Grupos'];
+  const iconos = {'Grupos':'⚽'};
+//'Cuartos Oro','Cuartos Plata','Semifinal Oro','Semifinal Plata','Final Oro','Final Plata'
+//'Cuartos Oro':'🥇','Cuartos Plata':'🥈','Semifinal Oro':'🏆','Semifinal Plata':'🏅','Final Oro':'🥇','Final Plata':'🥈'
+  container.innerHTML = fases.map(fase => {
+    const ps = estado.partidos.filter(p => p.fase === fase);
+    if (!ps.length) return '';
+    return `
+      <div class="fase-section">
+        <div class="fase-title">${iconos[fase]||'⚡'} ${fase}</div>
+        <div class="partidos-grid">
+          ${ps.map(p => renderPartidoCard(p)).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+ function nombreEquipo(id) {
+   const numId = Number(id);
+   if (!Number.isFinite(numId)) return '—';
+
+   const e = estado.equipos.find(x => Number(x.id) === numId);
+   return e ? e.nombre : '—';
+ }
+
+
+function renderPartidoCard(p) {
+  const localName = p.label && !Number.isFinite(p.local)
+          ? p.label.split(' vs ')[0]
+          : nombreEquipo(p.local);
+
+  const visitName = p.label && !Number.isFinite(p.visit)
+          ? p.label.split(' vs ')[1]
+          : nombreEquipo(p.visit);
+
+  return `
+  <div class="partido-card">
+
+    <div class="partido-hora">
+      ${p.hora}
+      <small>Campo ${p.campo}</small>
+    </div>
+
+    <div class="partido-equipo local">
+      ${p.local ? `
+        <img src="${p.local}.png"
+             class="escudo"
+             alt="${localName}"
+             onerror="this.style.display='none'">
+      ` : ''}
+      <span>${localName}</span>
+    </div>
+
+    <div class="marcador-box">
+      <div class="marcador-gol" onclick="editarGol(${p.id},'l')">
+        ${p.gl !== null ? p.gl : '-'}
+      </div>
+      <span class="marcador-sep">:</span>
+      <div class="marcador-gol" onclick="editarGol(${p.id},'v')">
+        ${p.gv !== null ? p.gv : '-'}
+      </div>
+    </div>
+
+    <div class="partido-equipo visitante">
+      <span>${visitName}</span>
+      ${p.visit ? `
+        <img src="${p.visit}.png"
+             class="escudo"
+             alt="${visitName}"
+             onerror="this.style.display='none'">
+      ` : ''}
+    </div>
+
+  </div>`;
+}
+
+// ── Edición inline de goles ──
+function editarGol(partidoId, lado) {
+  const p = estado.partidos.find(x => x.id === partidoId);
+  if (!p) return;
+  const actual = lado === 'l' ? p.gl : p.gv;
+  const nuevo = prompt(`Goles ${lado==='l'?'local':'visitante'} – ${lado==='l'?nombreEquipo(p.local):nombreEquipo(p.visit)}:`, actual !== null ? actual : '');
+  if (nuevo === null) return;
+  const val = parseInt(nuevo);
+  if (isNaN(val) || val < 0) return;
+  if (lado === 'l') p.gl = val; else p.gv = val;
+  renderCalendario();
+  renderClasificacion();
+  renderEstadisticas();
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER – FASE FINAL (BRACKET)
+// ═══════════════════════════════════════════════════
+
+function renderFaseFinale() {
+  const container = document.getElementById('fasefinal-container');
+  const fases = ['Cuartos Oro','Cuartos Plata','Semifinal Oro','Semifinal Plata','Final Oro','Final Plata'];
+  const iconos = {'Cuartos Oro':'🥇','Cuartos Plata':'🥈','Semifinal Oro':'🏆','Semifinal Plata':'🏅','Final Oro':'🥇','Final Plata':'🥈'};
+
+  container.innerHTML = fases.map(fase => {
+    const ps = estado.partidos.filter(p => p.fase === fase);
+    if (!ps.length) return '';
+    return `
+    <div class="fase-section">
+      <div class="fase-title">${iconos[fase]||'⚡'} ${fase}</div>
+      <div class="partidos-grid">
+        ${ps.map(p => renderPartidoCard(p)).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  renderBracket('bracket-oro', ['Cuartos Oro','Semifinal Oro','Final Oro'], '🥇');
+  renderBracket('bracket-plata', ['Cuartos Plata','Semifinal Plata','Final Plata'], '🥈');
+}
+
+function renderBracket(containerId, fases, emoji) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = `<div class="bracket">
+    ${fases.map(fase => {
+      const ps = estado.partidos.filter(p => p.fase === fase);
+      return `<div class="bracket-col">
+        <div class="bracket-col-title">${fase}</div>
+        ${ps.map(p => {
+          const lName = p.label ? p.label.split(' vs ')[0] : nombreEquipo(p.local);
+          const vName = p.label ? p.label.split(' vs ')[1] : nombreEquipo(p.visit);
+          const lWin = p.gl !== null && p.gv !== null && p.gl > p.gv;
+          const vWin = p.gl !== null && p.gv !== null && p.gv > p.gl;
+          return `<div class="bracket-match">
+            <div class="bracket-team ${lWin?'winner':''}">
+              <span>${lName}</span>
+              <span class="bracket-team-score">${p.gl !== null ? p.gl : '–'}</span>
+            </div>
+            <div class="bracket-team ${vWin?'winner':''}">
+              <span>${vName}</span>
+              <span class="bracket-team-score">${p.gv !== null ? p.gv : '–'}</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER – EQUIPOS
+// ═══════════════════════════════════════════════════
+
+function renderEquipos() {
+  const container = document.getElementById('equipos-container');
+
+  container.innerHTML = estado.equipos.map((e, i) => {
+    const color = COLORES_EQUIPOS[i % COLORES_EQUIPOS.length];
+
+    return `
+    <div class="equipo-card">
+      <img
+        src="${e.id}.png"
+        class="escudo-grande"
+        alt="Escudo ${e.nombre}"
+        onerror="this.style.display='none'"
+      >
+
+      <div class="equipo-card-info">
+        <h4>${e.nombre}</h4>
+        <small>GRUPO ${e.grupo}</small>
+      </div>
+
+      <span class="grupo-pill"
+        style="
+          background:${color}22;
+          color:${color};
+          border:1px solid ${color}44;
+        ">
+        G${e.grupo}
+      </span>
+    </div>`;
+  }).join('');
+}
+// ═══════════════════════════════════════════════════
+//  RENDER – ESTADÍSTICAS
+// ═══════════════════════════════════════════════════
+
+function renderEstadisticas() {
+  const container = document.getElementById('stats-container');
+
+  // Calcular stats de todos los grupos
+  const statsMap = {};
+  estado.equipos.forEach(e => {
+    statsMap[e.id] = { id:e.id, nombre:e.nombre, grupo:e.grupo, gf:0, gc:0, pts:0, pj:0, ta:0, tr:0 };
+  });
+  estado.partidos.filter(p => p.fase === 'Grupos' && p.gl !== null && p.gv !== null).forEach(p => {
+    const L = statsMap[p.local]; const V = statsMap[p.visit];
+    if (!L || !V) return;
+    L.pj++; V.pj++; L.gf += p.gl; L.gc += p.gv; V.gf += p.gv; V.gc += p.gl;
+    if (p.gl > p.gv)      { L.pts += 3; }
+    else if (p.gl < p.gv) { V.pts += 3; }
+    else                  { L.pts += 1; V.pts += 1; }
+  });
+  const todos = Object.values(statsMap);
+  const maxGF = Math.max(...todos.map(e=>e.gf), 1);
+  const maxPts = Math.max(...todos.map(e=>e.pts), 1);
+
+  const topGoles = [...todos].sort((a,b)=>b.gf-a.gf).slice(0,8);
+  const topPuntos = [...todos].sort((a,b)=>b.pts-a.pts).slice(0,8);
+  const topDefensa = [...todos].sort((a,b)=>a.gc-b.gc).slice(0,8);
+  const totalGoles = todos.reduce((s,e)=>s+e.gf,0);
+  const totalPartidos = estado.partidos.filter(p=>p.fase==='Grupos'&&p.gl!==null).length;
+
+  container.innerHTML = `
+    <div class="stats-card">
+      <div class="stats-card-header">⚽ Máximos Goleadores (Equipos)</div>
+      <table class="stats-table">
+        ${topGoles.map((e,i)=>`<tr>
+          <td class="stats-rank ${i===0?'top':''}">${i+1}</td>
+          <td>
+            <div class="stats-bar-wrap">
+              <div>${e.nombre}</div>
+            </div>
+            <div class="stats-bar-wrap" style="margin-top:4px;">
+              <div class="stats-bar" style="width:${(e.gf/maxGF)*120}px;"></div>
+              <span style="font-size:11px;color:rgba(245,247,245,.4);">${e.pj} PJ</span>
+            </div>
+          </td>
+          <td class="stats-val">${e.gf}</td>
+        </tr>`).join('')}
+      </table>
+    </div>
+    <div class="stats-card">
+      <div class="stats-card-header">🏆 Clasificación General</div>
+      <table class="stats-table">
+        ${topPuntos.map((e,i)=>`<tr>
+          <td class="stats-rank ${i===0?'top':''}">${i+1}</td>
+          <td>
+            ${e.nombre}
+            <div class="stats-bar-wrap" style="margin-top:4px;">
+              <div class="stats-bar" style="width:${(e.pts/maxPts)*100}px; background:var(--oro);"></div>
+            </div>
+          </td>
+          <td class="stats-val">${e.pts}</td>
+        </tr>`).join('')}
+      </table>
+    </div>
+    <div class="stats-card">
+      <div class="stats-card-header">🧱 Mejor Defensa (menos goles en contra)</div>
+      <table class="stats-table">
+        ${topDefensa.map((e,i)=>`<tr>
+          <td class="stats-rank ${i===0?'top':''}">${i+1}</td>
+          <td>${e.nombre}</td>
+          <td class="stats-val" style="color:${i===0?'#3cd65a':'var(--oro)'};">${e.gc}</td>
+        </tr>`).join('')}
+      </table>
+    </div>
+    <div class="stats-card">
+      <div class="stats-card-header">📈 Resumen del Torneo</div>
+      <table class="stats-table">
+        <tr><td>Total partidos jugados</td><td class="stats-val">${totalPartidos}</td></tr>
+        <tr><td>Total goles marcados</td><td class="stats-val">${totalGoles}</td></tr>
+        <tr><td>Media goles por partido</td><td class="stats-val">${totalPartidos>0?(totalGoles/totalPartidos).toFixed(1):'-'}</td></tr>
+        <tr><td>Equipos participantes</td><td class="stats-val">${estado.equipos.length}</td></tr>
+        <tr><td>Grupos</td><td class="stats-val">3</td></tr>
+        <tr><td>Sede</td><td style="font-size:11px;color:rgba(245,247,245,.5);">Polideportivo Mpal. Fco. Correa</td></tr>
+      </table>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+//  ONEDRIVE: LEER EXCEL
+// ═══════════════════════════════════════════════════
+// async function cargarExcelLocal() {
+//   const resp = await fetch('Torneo.xlsx');
+//   if (!resp.ok) throw new Error('No se pudo cargar Torneo.xlsx');
+//
+//   const buffer = await resp.arrayBuffer();
+//   const workbook = XLSX.read(buffer, { type: 'array' });
+//
+//   const sheetPartidos = workbook.Sheets['Partidos'];
+//   const sheetEquipos = workbook.Sheets['Equipos'];
+//
+//   if (!sheetPartidos || !sheetEquipos) {
+//     throw new Error('Faltan hojas Equipos o Partidos');
+//   }
+//
+//   estado.equipos = XLSX.utils.sheet_to_json(sheetEquipos).map(r => ({
+//     id: Number(r.ID),
+//     nombre: String(r.NOMBRE),
+//     grupo: Number(r.GRUPO)
+//   }));
+//
+//   estado.partidos = XLSX.utils
+//           .sheet_to_json(sheetPartidos, {defval: null })
+//                   .map(r => ({
+//     id: Number(r.ID),
+//     hora: XLSX.SSF.format("hh:mm", r.HORA),
+//     fase: String(r.FASE),
+//     grupo: Number(r.GRUPO),
+//     campo: Number(r.CAMPO),
+//     local: r.LOCAL_ID ? Number(r.LOCAL_ID) : null,
+//     gl: Number.isFinite(r.GOL_L) ? r.GOL_L : null,
+//     gv: Number.isFinite(r.GOL_V) ? r.GOL_V : null,
+//     visit: r.VISIT_ID ? Number(r.VISIT_ID) : null,
+//     label: r.LABEL
+//   }));
+//   renderTodo();
+// }
+
+function setOdStatus(tipo, texto) {
+  const dot  = document.getElementById('od-dot');
+  const text = document.getElementById('od-status-text');
+  dot.className  = 'od-dot ' + tipo;
+  text.textContent = texto;
+}
+
+// ═══════════════════════════════════════════════════
+//  DEMO & UTILIDADES
+// ═══════════════════════════════════════════════════
+
+function cargarDatosDemostracion() {
+  const { equipos, partidos } = datosDemostracion();
+  estado.equipos  = equipos;
+  estado.partidos = partidos;
+  renderTodo();
+  setOdStatus('connected', 'Modo demostración – datos del torneo (sin resultados)');
+}
+
+function renderTodo() {
+  renderClasificacion();
+  renderCalendario();
+  renderFaseFinale();
+  renderEquipos();
+  renderEstadisticas();
+}
+
+ async function cargarExcelDesdeOneDrive() {
+   const resp = await fetch(ONEDRIVE_EXCEL_URL + '&v=' + Date.now());
+   if (!resp.ok) throw new Error('No se pudo descargar Excel desde OneDrive');
+
+   const buffer = await resp.arrayBuffer();
+   const workbook = XLSX.read(buffer, { type: 'array' });
+
+   const sheetPartidos = workbook.Sheets['Partidos'];
+   const sheetEquipos  = workbook.Sheets['Equipos'];
+
+   if (!sheetPartidos || !sheetEquipos) {
+     throw new Error('Faltan hojas Equipos o Partidos');
+   }
+
+   estado.equipos = XLSX.utils.sheet_to_json(sheetEquipos).map(r => ({
+     id: Number(r.ID),
+     nombre: String(r.NOMBRE),
+     grupo: Number(r.GRUPO)
+   }));
+
+   estado.partidos = XLSX.utils
+           .sheet_to_json(sheetPartidos, { defval: null })
+           .map(r => ({
+             id: Number(r.ID),
+             hora: XLSX.SSF.format("hh:mm", r.HORA),
+             fase: String(r.FASE),
+             grupo: Number(r.GRUPO),
+             campo: Number(r.CAMPO),
+             local: r.LOCAL_ID ? Number(r.LOCAL_ID) : null,
+             gl: Number.isFinite(r.GOL_L) ? r.GOL_L : null,
+             gv: Number.isFinite(r.GOL_V) ? r.GOL_V : null,
+             visit: r.VISIT_ID ? Number(r.VISIT_ID) : null,
+             label: r.LABEL
+           }));
+ }
+
+function mostrarSeccion(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+window.addEventListener('load', async () => {
+  try {
+    await cargarExcelDesdeOneDrive();   // ✅ ONE DRIVE
+    renderTodo();
+  } catch (e) {
+    console.error(e);
+    //alert('Error cargando Excel desde OneDrive');
+  } finally {
+    document.getElementById('loading-overlay').classList.add('hidden');
+  }
+});
+</script>
+</body>
+</html>
