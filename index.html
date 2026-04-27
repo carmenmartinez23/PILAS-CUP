@@ -1108,7 +1108,7 @@
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('sec-' + id).classList.add('active');
     btn.classList.add('active');
-    localStorage.setItem('pilascup_tab', id); // 👈 añadir esto
+    localStorage.setItem('pilascup_tab', id);
   }
   window.addEventListener('load', async () => {
     try {
